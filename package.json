@@ -1,0 +1,43 @@
+{
+  "name": "works",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "acorn-jsx": "^5.2.0",
+    "browser-sync": "^2.26.7",
+    "concat": "^1.0.3",
+    "connect-ssi": "^1.1.1",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^6.1.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-changed": "^4.0.2",
+    "gulp-csslint": "^1.0.1",
+    "gulp-eslint": "^6.0.0",
+    "gulp-htmlhint": "^2.2.1",
+    "gulp-imagemin": "^6.2.0",
+    "gulp-notify": "^3.2.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.1.0",
+    "gulp-sass-glob": "^1.1.0",
+    "gulp-scss-lint": "^1.0.0",
+    "gulp-slim": "^0.3.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-uglify-es": "^1.0.4",
+    "imagemin-mozjpeg": "^8.0.0",
+    "imagemin-pngquant": "^8.0.0"
+  },
+  "dependencies": {
+    "acorn": "^6.4.1",
+    "node-sass": "^4.14.1"
+  }
+}
