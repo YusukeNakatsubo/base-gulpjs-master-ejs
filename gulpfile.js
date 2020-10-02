@@ -82,6 +82,7 @@ function sassFunc() {
     cascade: false
   }))
   .pipe(sourcemaps.write('maps'))
+  .pipe(gulp.dest(paths.outCss))
   .pipe(browserSync.stream());
 }
 
