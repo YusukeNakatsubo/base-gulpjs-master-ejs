@@ -92,9 +92,26 @@ function ejsFunc() {
     errorHandler: notify.onError('<%= error.message %>'),
   }))
   .pipe(ejs({jsonData: jsonData}))
-  .pipe(rename({extname:'.html' }))
+  .pipe(rename({extname:'.html'}))
   .pipe(gulp.dest(paths.outEjs))
   .pipe(browserSync.stream())
+}
+
+// ejs 量産用
+function ejsTempFunc() {
+  let jsonFile = 'dist/assets/data/template.json';
+  let tempFile = 'src/ejs/temp/template.ejs';
+  let jsonData = JSON.parse(fs.readFileSync(jsonFile, 'utf8'));
+  let pages = jsonData.pages, id;
+  for (var i = 0; i < pages.length; i++) {
+    id = pages[i].id;
+    gulp.src(tempFile)
+      .pipe(ejs({
+          jsonData: pages[i]
+      }))
+      .pipe(rename(id + '.html'))
+      .pipe(gulp.dest('dist/temp/'));
+  }
 }
 
 // sass
@@ -153,6 +170,7 @@ function imgFunc() {
 function watchFunc(done) {
   // gulp.watch(paths.slimSrc, gulp.parallel(slimFunc));
   gulp.watch(paths.ejsSrc, gulp.parallel(ejsFunc));
+  gulp.watch('src/ejs/temp/', gulp.parallel(ejsTempFunc));
   gulp.watch(paths.jsonSrc, gulp.parallel(jsonFunc));
   gulp.watch(paths.scssSrc, gulp.parallel(sassFunc));
   gulp.watch(paths.jsSrc, gulp.parallel(jsFunc));
@@ -189,7 +207,7 @@ function esLint() {
 
 gulp.task('default',
 gulp.parallel(
-  browserSyncFunc, watchFunc, jsonFunc, ejsFunc, sassFunc, jsFunc, imgFunc
+  browserSyncFunc, watchFunc, jsonFunc, ejsFunc, ejsTempFunc, sassFunc, jsFunc, imgFunc
   )
 );
 
