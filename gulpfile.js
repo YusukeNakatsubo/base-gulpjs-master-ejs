@@ -2,6 +2,10 @@ const gulp = require('gulp');
 const browserSync = require('browser-sync');
 const ssi = require('connect-ssi');
 const slim = require('gulp-slim');
+const fs = require('fs');
+const merge = require('gulp-merge-json');
+const ejs = require('gulp-ejs');
+const rename = require('gulp-rename');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
@@ -21,13 +25,17 @@ const eslint = require('gulp-eslint');
 const paths = {
   rootDir: 'dist/',
   slimSrc: 'src/slim/**/*.slim',
+  ejsSrc: 'src/ejs/**/*.ejs',
   scssSrc: 'src/assets/scss/**/*.scss',
   jsSrc: 'src/assets/js/**/*.js',
   imgSrc: 'src/assets/img/**/*',
+  jsonSrc: 'src/assets/data/**/*.json',
   outSlim: 'dist/',
+  outEjs: 'dist/',
   outCss: 'dist/assets/css',
   outJs: 'dist/assets/js',
   outImg: 'dist/assets/img',
+  outJson: 'dist/assets/data',
   mapsCss: 'dist/assets/css/maps',
   mapsJs: 'dist/assets/js/maps'
 };
@@ -52,17 +60,40 @@ function browserSyncFunc(done){
 }
 
 // slim
-function slimFunc() {
-  return gulp.src(paths.slimSrc)
+// function slimFunc() {
+//   return gulp.src(paths.slimSrc)
+//   .pipe(plumber({
+//     errorHandler: notify.onError('<%= error.message %>'),
+//   }))
+//   .pipe(slim({
+//     require: 'slim/include',
+//     pretty: true,
+//     options: 'include_dirs=["src/slim/inc"]'
+//   }))
+//   .pipe(gulp.dest(paths.outSlim))
+//   .pipe(browserSync.stream())
+// }
+
+// json
+function jsonFunc() {
+  return gulp.src(paths.jsonSrc)
+  .pipe(merge({
+    fileName: 'setting.json'
+  }))
+  .pipe(gulp.dest(paths.outJson))
+  .pipe(browserSync.stream())
+}
+
+// ejs
+function ejsFunc() {
+  const jsonData = JSON.parse(fs.readFileSync('dist/assets/data/setting.json','utf-8'));
+  return gulp.src([paths.ejsSrc,'!' + 'src/ejs/**/_*.ejs'])
   .pipe(plumber({
     errorHandler: notify.onError('<%= error.message %>'),
   }))
-  .pipe(slim({
-    require: 'slim/include',
-    pretty: true,
-    options: 'include_dirs=["src/slim/inc"]'
-  }))
-  .pipe(gulp.dest(paths.outSlim))
+  .pipe(ejs({jsonData: jsonData}))
+  .pipe(rename({extname:'.html' }))
+  .pipe(gulp.dest(paths.outEjs))
   .pipe(browserSync.stream())
 }
 
@@ -120,7 +151,9 @@ function imgFunc() {
 
 // watch
 function watchFunc(done) {
-  gulp.watch(paths.slimSrc, gulp.parallel(slimFunc));
+  // gulp.watch(paths.slimSrc, gulp.parallel(slimFunc));
+  gulp.watch(paths.ejsSrc, gulp.parallel(ejsFunc));
+  gulp.watch(paths.jsonSrc, gulp.parallel(jsonFunc));
   gulp.watch(paths.scssSrc, gulp.parallel(sassFunc));
   gulp.watch(paths.jsSrc, gulp.parallel(jsFunc));
   gulp.watch(paths.imgSrc, gulp.parallel(imgFunc));
@@ -148,9 +181,15 @@ function esLint() {
 }
 
 // scripts tasks
+// gulp.task('default',
+// gulp.parallel(
+//   browserSyncFunc, watchFunc, slimFunc, sassFunc, jsFunc, imgFunc
+//   )
+// );
+
 gulp.task('default',
 gulp.parallel(
-  browserSyncFunc, watchFunc, slimFunc, sassFunc, jsFunc, imgFunc
+  browserSyncFunc, watchFunc, jsonFunc, ejsFunc, sassFunc, jsFunc, imgFunc
   )
 );
 

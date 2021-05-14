@@ -1,0 +1,33 @@
+<% let title = (pageId === 'home') ? jsonData.siteInfo.name : jsonData.pages[pageId].name + jsonData.siteInfo.name%>
+<% let description = jsonData.pages[pageId].description %>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <title><%= title %></title>
+  <meta name="description" content="<%= description %>">
+  <meta name="description" content="">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <header>
+    <% if (pageId === 'home'){ %>
+      <h1><%= jsonData.siteInfo.name %></h1>
+    <% } else { %>
+      <a href="/"><%= jsonData.siteInfo.name %></a>
+    <% } %>
+  </header>
+  <nav>
+    <ul>
+      <% for(let page in jsonData.pages){ %>
+        <% if (page === pageId) { %>
+          <li class="current"><%= jsonData.pages[page].name %></li>
+        <% } else { %>
+          <li><a href="/<%= page %>/"><%= jsonData.pages[page].name %></a></li>
+        <% } %>
+      <% }; %>
+    </ul>
+  </nav>
+  <main>

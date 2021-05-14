@@ -34,10 +34,15 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify-es": "^1.0.4",
     "imagemin-mozjpeg": "^8.0.0",
-    "imagemin-pngquant": "^8.0.0"
+    "imagemin-pngquant": "^8.0.0",
+    "node-reset-scss": "^1.0.1"
   },
   "dependencies": {
     "acorn": "^6.4.1",
+    "gulp-cli": "^2.3.0",
+    "gulp-ejs": "^5.1.0",
+    "gulp-merge": "^0.1.1",
+    "gulp-merge-json": "^2.1.1",
     "node-sass": "^4.14.1"
   }
 }

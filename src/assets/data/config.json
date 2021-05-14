@@ -1,0 +1,12 @@
+{
+  "siteInfo": {
+    "name": "test",
+    "siteUrl": "サイトのドメイン"
+  },
+  "pages": {
+    "home": {
+      "name": "ホーム",
+      "description": "ページの説明"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+</main>
+<footer>
+  <nav>
+    <ul>
+      <% for(let page in jsonData.pages){ %>
+        <li><a href="/<%= page %>/"><%= jsonData.pages[page].name %></a></li>
+      <% }; %>
+    </ul>
+  </nav>
+  <p><small>（c）<%= jsonData.siteInfo.name %></small></p>
+</footer>
+</body>
+</html>
