@@ -43,6 +43,6 @@
     "gulp-ejs": "^5.1.0",
     "gulp-merge": "^0.1.1",
     "gulp-merge-json": "^2.1.1",
-    "node-sass": "^4.14.1"
+    "node-sass": "^7.0.0"
   }
 }
